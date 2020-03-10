@@ -109,13 +109,16 @@ class HashTable:
 
         Fill this in.
         '''
-        # ye_ole_storage = self.storage
-        # self.capacity = self.capacity * 2
-        # self.storage = [None] * self.capacity
+        ye_ole_storage = self.storage
+        self.capacity = self.capacity * 2
+        self.storage = [None] * self.capacity
 
-        # for item in ye_ole_storage:
-        #     self.insert(item.key, item.value)
-        pass
+        for item in ye_ole_storage:
+            print(item)
+            if item == None:
+                pass
+            else:
+                self.insert(item.key, item.value)
 
 
 if __name__ == "__main__":
