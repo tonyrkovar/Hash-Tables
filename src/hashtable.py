@@ -47,23 +47,21 @@ class HashTable:
         new_link = LinkedPair(key, value)
         index = self._hash_mod(key)
 
-        if self.storage[index] == None:
-            self.storage[index] = new_link
-
         current_LI = self.storage[index]
 
-        if current_LI.key == key:
-            current_LI.value = value
-
-        while current_LI.next is not None:
+        if self.storage[index] == None:
+            self.storage[index] = new_link
+        else:
             if current_LI.key == key:
                 current_LI.value = value
-            elif current_LI.next == None:
-                current_LI.next = new_link
             else:
-                current_LI = current_LI.next
-        # print(
-        #     f'current key: {current_LI.key} key: {key}\ncurrent value: {current_LI.value} value: {value}\n index: {index}')
+                if current_LI.next == None:
+                    current_LI.next = new_link
+                else:
+                    while current_LI.next is not None:
+                        if current_LI.key == key:
+                            current_LI.value = value
+                        current_LI = current_LI.next
 
     def remove(self, key):
         '''
@@ -91,27 +89,18 @@ class HashTable:
         # Checks if the returned node is empty
         if current_node == None:
             return current_node
-
         # Checks the variable to see if the keys match, if they do return value
-        if current_node.key == key:
-            print('Lakotah Luey')
+        elif current_node.key == key:
             return current_node.value
-
         # If the keys don't match and the node isn't empty we iterate through the linked list at index
-        print(f'{current_node.value}, {current_node.key}, {key}, {index}')
-        while current_node.next is not None:
-            print('in while')
-            # If the key at current matches, return value
-            if current_node.key == key:
-                return current_node.value
-            # If there is a next value, set current_node to it and run the key check again
-            elif current_node.next:
-                print(f'Current node value: {current_node.value}')
-                print(f'Next nodes value: {current_node.next.value}')
+        else:
+            while current_node.next:
+                # If there is a next value, set current_node to it and run the key check again
                 current_node = current_node.next
-            print('f', key, current_node.value, current_node.next.key)
-
-        # return current_node
+                # If the key at current matches, return value
+                if current_node.key == key:
+                    return current_node.value
+            return None
 
     def resize(self):
         '''
