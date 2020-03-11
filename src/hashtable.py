@@ -71,23 +71,31 @@ class HashTable:
         '''
         index = self._hash_mod(key)
         current_node = self.storage[index]
-        if current_node == None:
+
+        if current_node is None:
             print('ITEM NOT FOUND')
-        elif current_node.key == key and current_node.next:
+
+        elif current_node.key == key and current_node.next is None:
+            print('yo')
+            self.storage[index] = None
+            return
+
+        elif current_node.key == key and current_node.next is not None:
             print(self.storage[index].key, "THEY MATCH!, setting to None")
-            current_node = current_node.next
-        elif current_node.key != key and current_node.next:
+            self.storage[index] = None
+            return
+
+        elif current_node.key != key and current_node.next is not None:
             prev = current_node
             current = current_node.next
-            while current_node:
-                if current_node.key == key:
+            while current is not None:
+                if current.key == key:
                     prev.next = current.next
-                    print(self.storage[index].key,
-                          "THEY MATCH!, setting to None22222222")
                     current = None
+                    return
                 prev = current
                 current = current.next
-            return print('ITEM NOT FOUND')
+            print('ITEM NOT FOUND')
 
     def retrieve(self, key):
         '''
