@@ -55,13 +55,11 @@ class HashTable:
             if current_LI.key == key:
                 current_LI.value = value
             else:
-                if current_LI.next == None:
-                    current_LI.next = new_link
-                else:
-                    while current_LI.next is not None:
-                        if current_LI.key == key:
-                            current_LI.value = value
-                        current_LI = current_LI.next
+                while current_LI.next is not None:
+                    current_LI = current_LI.next
+                    if current_LI.key == key:
+                        current_LI.value = value
+                current_LI.next = new_link
 
     def remove(self, key):
         '''
@@ -71,7 +69,25 @@ class HashTable:
 
         Fill this in.
         '''
-        pass
+        index = self._hash_mod(key)
+        current_node = self.storage[index]
+        if current_node == None:
+            print('ITEM NOT FOUND')
+        elif current_node.key == key and current_node.next:
+            print(self.storage[index].key, "THEY MATCH!, setting to None")
+            current_node = current_node.next
+        elif current_node.key != key and current_node.next:
+            prev = current_node
+            current = current_node.next
+            while current_node:
+                if current_node.key == key:
+                    prev.next = current.next
+                    print(self.storage[index].key,
+                          "THEY MATCH!, setting to None22222222")
+                    current = None
+                prev = current
+                current = current.next
+            return print('ITEM NOT FOUND')
 
     def retrieve(self, key):
         '''
@@ -109,14 +125,18 @@ class HashTable:
 
         Fill this in.
         '''
-        ye_ole_storage = self.storage
+        old_storage = self.storage
         self.capacity = self.capacity * 2
         self.storage = [None] * self.capacity
-
-        for item in ye_ole_storage:
-            print(item)
+        for item in old_storage:
             if item == None:
                 pass
+            elif item.next:
+                self.insert(item.key, item.value)
+                current_node = item
+                while current_node.next is not None:
+                    current_node = current_node.next
+                    self.insert(current_node.key, current_node.value)
             else:
                 self.insert(item.key, item.value)
 
